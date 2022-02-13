@@ -9,15 +9,19 @@ const sleep = (milliseconds) => {
 }
 
 function amqpStartUp() {
-    amqp.connect(config.get('amqp_server'), function(error0, connection) {
+    amqp.connect(config.get('amqp_server_docker'), function(error0, connection) {
+      
         if (error0) {
-            throw error0
+            throw ( error0)
+            
         }
+
         connection.createChannel(function(error1, channel) {
             if (error1) {
-                throw error1
+                    throw error1
             }
 
+            
             const queue = config.get('queue')
 
             channel.assertQueue(queue, {
@@ -25,6 +29,8 @@ function amqpStartUp() {
             })
 
             channel.consume(queue, async function(msg) {
+
+
                 // Taking chemical agents from Eco that must be analyzed
                 const arr_chemical_agents = JSON.parse(msg.content)
                 const dim = arr_chemical_agents.length

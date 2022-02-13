@@ -20,4 +20,5 @@ server.listen(port, () => {
 })
 
 sleep(120000)
+
 amqpStartUp()
